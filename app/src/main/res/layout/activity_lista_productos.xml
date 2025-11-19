@@ -50,6 +50,14 @@
             android:layout_weight="1"
             android:text="Registro"
             android:backgroundTint="#B71C1C"/>
+        <!-- sumamos para agregar productos -->
+        <Button
+            android:id="@+id/btnAgregarProducto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Agregar"
+            android:backgroundTint="#B71C1C"/>
 
     </LinearLayout>
 

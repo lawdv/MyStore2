@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
@@ -12,32 +11,22 @@
         android:layout_height="wrap_content"
         android:text="Carrito de compras"
         android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtDetalleCarrito"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="- Camiseta x1  ($49.99)\n- Zapatos x1   ($89.50)\n- Reloj   x1   ($120.00)"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/txtTituloCarrito"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="#D8EAF9"
-
-        />
+    <ListView
+        android:id="@+id/listCarrito"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/txtTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total: $259.49"
+        android:text="Total: $0"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="8dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -44,6 +44,13 @@
                 android:text="$0.00"
                 android:textColor="@android:color/holo_green_dark"
                 android:background="#FFC107"/>
+
+            <Button
+                android:id="@+id/btnAgregarCarrito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agregar"
+                android:backgroundTint="#2E7D32"/>
         </LinearLayout>
 
     </LinearLayout>

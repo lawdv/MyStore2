@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+<!--    Permisos de localizacion por usuario-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +18,9 @@
         <!-- Importante sumar los java creados manuales si no lo leera el sistema -->
         <activity android:name=".CarritoActivity" />
         <activity android:name=".RegistroActivity" />
+        <activity android:name=".AgregarProductoActivity" />
         <activity android:name=".ListaProductos" android:exported="false" />
+        <activity android:name=".EditarProductoActivity" />
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

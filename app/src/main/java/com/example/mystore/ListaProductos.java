@@ -1,6 +1,7 @@
 package com.example.mystore;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,13 @@ import java.util.List;
 
 public class ListaProductos extends AppCompatActivity {
 
+    //sumo campos para DB
+    private DBHelper dbHelper;
+    private RecyclerView recycler;
+    private ProductoAdapter adapter;
+    private List<Producto> productos;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +36,34 @@ public class ListaProductos extends AppCompatActivity {
         tv.setText("Bienvenido, " + user + "!");
 
         // 2. recycler con los 3 productos
-        List<Producto> productos = new ArrayList<>();
-        productos.add(new Producto("Camiseta", 49.99, R.drawable.camiseta));
-        productos.add(new Producto("Zapatos", 89.5, R.drawable.zapatos));
-        productos.add(new Producto("Reloj", 120.0, R.drawable.reloj));
 
-        RecyclerView recycler = findViewById(R.id.recyclerProductos);
+        dbHelper = new DBHelper(this);
+
+        //antiguo demo
+//        List<Producto> productos = new ArrayList<>();
+//        productos.add(new Producto("Camiseta", 49.99, R.drawable.camiseta));
+//        productos.add(new Producto("Zapatos", 89.5, R.drawable.zapatos));
+//        productos.add(new Producto("Reloj", 120.0, R.drawable.reloj));
+
+        recycler = findViewById(R.id.recyclerProductos);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        recycler.setAdapter(new ProductoAdapter(productos));
+
+        productos = cargarProductosDesdeBD();
+        //usando el carrito
+        adapter = new ProductoAdapter(productos, this);
+        // para mostrar el item recien agregado
+        recycler.setAdapter(adapter);
+
+        //antiguo
+//        RecyclerView recycler = findViewById(R.id.recyclerProductos);
+//        recycler.setLayoutManager(new LinearLayoutManager(this));
+//        recycler.setAdapter(new ProductoAdapter(productos));
 
         // 3. BOTONES
         Button btnCarrito = findViewById(R.id.btnCarrito);
         Button btnRegistro = findViewById(R.id.btnRegistro);
+        Button btnAgregar = findViewById(R.id.btnAgregarProducto);
+
 
         btnCarrito.setOnClickListener(v -> {
             Intent i = new Intent(ListaProductos.this, CarritoActivity.class);
@@ -50,5 +74,45 @@ public class ListaProductos extends AppCompatActivity {
             Intent i = new Intent(ListaProductos.this, RegistroActivity.class);
             startActivity(i);
         });
+        btnAgregar.setOnClickListener(v -> {
+            Intent i = new Intent(ListaProductos.this, AgregarProductoActivity.class);
+            startActivity(i);
+        });
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (dbHelper != null && productos != null && adapter != null) {
+            productos.clear();
+            productos.addAll(cargarProductosDesdeBD());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private List<Producto> cargarProductosDesdeBD() {
+        List<Producto> lista = new ArrayList<>();
+
+        Cursor cursor = dbHelper.obtenerTodosLosProductos();
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                double precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"));
+                String descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion"));
+                int imagenRes = cursor.getInt(cursor.getColumnIndexOrThrow("imagenRes"));
+
+                // usamos el constructor con id
+                Producto p = new Producto(id, nombre, precio, descripcion, imagenRes);
+                lista.add(p);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return lista;
+    }
+
+
 }
+
